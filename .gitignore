@@ -25,6 +25,9 @@ local.settings.json
 node_modules
 dist
 
+coverage
+.vitest
+
 # Local python packages
 .python_packages/
 
