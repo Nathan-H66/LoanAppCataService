@@ -5,7 +5,7 @@ import type { Device } from '../domain/device';
 import { FakeDeviceRepo } from '../infra/fake-device-repo';
 import { DummyDeviceUpdatedNotifier } from '../infra/dummy-device-updated-notifier';
 import { HttpDeviceUpdatedNotifier } from '../infra/http-device-updated-notifier';
-import { DeviceUpdatedNotifier } from '../domain/device-updated-notifier';
+import { DeviceUpdatedNotifier } from '../app/device-updated-notifier';
 import { OAuth2Validator } from '../infra/oauth2-validator';
 import type { AuthContext } from '../app/auth-context';
 import type { HttpRequest } from '@azure/functions';
