@@ -3,6 +3,7 @@ import { UpsertDeviceDeps } from '../app/upsert-device';
 import { DeviceRepo } from '../domain/device-repo';
 import type { Device } from '../domain/device';
 import { FakeDeviceRepo } from '../infra/fake-device-repo';
+import { CosmosDeviceRepo } from '../infra/cosmos-device-repo';
 import { DummyDeviceUpdatedNotifier } from '../infra/dummy-device-updated-notifier';
 import { HttpDeviceUpdatedNotifier } from '../infra/http-device-updated-notifier';
 import { DeviceUpdatedNotifier } from '../app/device-updated-notifier';
@@ -92,3 +93,21 @@ export const makeUpsertDeviceDeps = (): UpsertDeviceDeps => ({
   deviceRepo: getDeviceRepo(),
   deviceUpdatedNotifier: getDeviceUpdatedNotifier(),
 });
+
+let cachedProductRepo: CosmosDeviceRepo | null = null;
+
+// Lazy singleton accessor for a CosmosDeviceRepo. Options are hard-coded
+// except for the Cosmos key which is read from `process.env.COSMOS_KEY`.
+export const getProductRepo = (): CosmosDeviceRepo => {
+  if (!cachedProductRepo) {
+    const options = {
+      endpoint: 'https://loanappcata-dev-nh66-cosmos.documents.azure.com:443',
+      databaseId: 'cata-db',
+      containerId: 'products',
+      key: process.env.COSMOS_KEY,
+    };
+
+    cachedProductRepo = new CosmosDeviceRepo(options);
+  }
+  return cachedProductRepo;
+};
