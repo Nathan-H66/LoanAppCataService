@@ -117,9 +117,9 @@ let cachedProductRepo: CosmosDeviceRepo | null = null;
 export const getProductRepo = (): CosmosDeviceRepo => {
   if (!cachedProductRepo) {
     const options = {
-      endpoint: 'https://loanappcata-dev-nh66-cosmos.documents.azure.com:443',
-      databaseId: 'cata-db',
-      containerId: 'products',
+      endpoint: process.env.COSMOS_ENDPOINT,
+      databaseId: process.env.COSMOS_DATABASE,
+      containerId: process.env.COSMOS_CONTAINER,
       key: process.env.COSMOS_KEY,
     };
 
