@@ -34,23 +34,39 @@ let cachedDeviceRepo: DeviceRepo | null = null;
 
 export const getDeviceRepo = (): DeviceRepo => {
   if (!cachedDeviceRepo) {
-    const initialDevices: Device[] = [
-      {
-        id: 'd-001',
-        name: 'Seeded Smart Thermostat',
-        category: 'HVAC',
-        description: 'A seeded example device for local testing.',
-        quantity: 5,
-      },
-      {
-        id: 'd-002',
-        name: 'Seeded Motion Sensor',
-        category: 'Security',
-        description: 'Another seeded device to get you started.',
-        quantity: 2,
-      },
-    ];
-    cachedDeviceRepo = new FakeDeviceRepo(initialDevices);
+    const endpoint = process.env.COSMOS_ENDPOINT;
+    const databaseId = process.env.COSMOS_DATABASE;
+    const containerId = process.env.COSMOS_CONTAINER;
+    const key = process.env.COSMOS_KEY;
+
+    if (endpoint && databaseId && containerId) {
+      // Construct a Cosmos-backed repo when the required env vars are present
+      cachedDeviceRepo = new CosmosDeviceRepo({
+        endpoint,
+        databaseId,
+        containerId,
+        key,
+      });
+    } else {
+      // Fallback to in-memory seeded FakeDeviceRepo
+      const initialDevices: Device[] = [
+        {
+          id: 'd-001',
+          name: 'Seeded Smart Thermostat',
+          category: 'HVAC',
+          description: 'A seeded example device for local testing.',
+          quantity: 5,
+        },
+        {
+          id: 'd-002',
+          name: 'Seeded Motion Sensor',
+          category: 'Security',
+          description: 'Another seeded device to get you started.',
+          quantity: 2,
+        },
+      ];
+      cachedDeviceRepo = new FakeDeviceRepo(initialDevices);
+    }
   }
   return cachedDeviceRepo;
 };
