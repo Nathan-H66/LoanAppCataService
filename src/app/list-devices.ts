@@ -13,6 +13,7 @@ export type DeviceListItem = {
   name: string;
   description: string;
   category: string;
+  quantity: number;
 };
 
 export type ListDevicesResult = {
@@ -40,6 +41,7 @@ export async function listDevices(
       name: device.name,
       description: device.description,
       category: device.category,
+      quantity: device.quantity,
     }));
 
     return { success: true, data: processedDevices };

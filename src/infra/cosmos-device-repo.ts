@@ -8,6 +8,7 @@ type DeviceDTO = {
   name: string;
   description: string;
   category: string;
+  quantity: number;
 };
 
 type CosmosDeviceRepoOptions = {
@@ -34,6 +35,7 @@ export class CosmosDeviceRepo implements DeviceRepo {
       name: device.name,
       description: device.description,
       category: device.category,
+      quantity: device.quantity,
     };
   }
 
@@ -43,6 +45,7 @@ export class CosmosDeviceRepo implements DeviceRepo {
       name: dto.name,
       description: dto.description,
       category: dto.category,
+      quantity: dto.quantity,
     };
   }
 

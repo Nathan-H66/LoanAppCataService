@@ -39,12 +39,14 @@ export const getDeviceRepo = (): DeviceRepo => {
         name: 'Seeded Smart Thermostat',
         category: 'HVAC',
         description: 'A seeded example device for local testing.',
+        quantity: 5,
       },
       {
         id: 'd-002',
         name: 'Seeded Motion Sensor',
         category: 'Security',
         description: 'Another seeded device to get you started.',
+        quantity: 2,
       },
     ];
     cachedDeviceRepo = new FakeDeviceRepo(initialDevices);

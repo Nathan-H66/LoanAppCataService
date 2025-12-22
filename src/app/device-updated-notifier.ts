@@ -4,6 +4,7 @@ export type DeviceUpdatedDto = {
   name: string;
   description: string;
   category: string;
+  quantity: number;
   updatedAt: string; // ISO string format
 };
 

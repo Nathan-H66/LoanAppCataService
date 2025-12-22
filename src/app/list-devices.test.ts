@@ -33,12 +33,14 @@ describe('listProducts', () => {
 
         description: 'First device',
         category: 'Category A',
+        quantity: 3,
       },
       {
         id: 'dev-2',
         name: 'Device 2',
         description: 'Second device',
         category: 'Category B',
+        quantity: 7,
       },
     ];
     const deviceRepo = new FakeDeviceRepo(devices);

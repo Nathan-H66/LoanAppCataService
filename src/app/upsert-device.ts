@@ -15,6 +15,7 @@ export type UpsertDeviceCommand = {
   name: string;
   description: string;
   category: string;
+  quantity: number;
 };
 
 export type UpsertDeviceResult = {
@@ -42,6 +43,7 @@ export async function upsertDevice(
       name: command.name,
       description: command.description,
       category: command.category,
+      quantity: command.quantity,
     });
 
     // Save (upsert) the device
@@ -53,6 +55,7 @@ export async function upsertDevice(
       name: device.name,
       description: device.description,
       category: device.category,
+      quantity: device.quantity,
       updatedAt: new Date().toISOString(),
     };
     await deps.deviceUpdatedNotifier.notifyDeviceUpdated(dto);
