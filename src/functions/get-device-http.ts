@@ -2,7 +2,7 @@ import { app, HttpRequest, HttpResponseInit } from '@azure/functions';
 import { getDeviceById } from '../app/get-device';
 import { getDeviceRepo } from '../config/appServices';
 
-const getDeviceHandler = async (
+export const getDeviceHandler = async (
   request: HttpRequest
 ): Promise<HttpResponseInit> => {
   const id = request.params['id'];
