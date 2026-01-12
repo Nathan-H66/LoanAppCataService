@@ -1,5 +1,6 @@
 import { ListDevicesDeps } from '../app/list-devices';
 import { UpsertDeviceDeps } from '../app/upsert-device';
+import { getDeviceByIdDeps } from '../app/get-device';
 import { DeviceRepo } from '../domain/device-repo';
 import type { Device } from '../domain/device';
 import { FakeDeviceRepo } from '../infra/fake-device-repo';
@@ -10,6 +11,7 @@ import { DeviceUpdatedNotifier } from '../app/device-updated-notifier';
 import { OAuth2Validator } from '../infra/oauth2-validator';
 import type { AuthContext } from '../app/auth-context';
 import type { HttpRequest } from '@azure/functions';
+import { Logger } from '../app/logger';
 
 let cachedDeviceUpdatedNotifier: DeviceUpdatedNotifier | null = null;
 
@@ -127,3 +129,13 @@ export const getProductRepo = (): CosmosDeviceRepo => {
   }
   return cachedProductRepo;
 };
+
+export const makeGetDeviceDeps = (logger: Logger): getDeviceByIdDeps => ({
+  deviceRepo: getDeviceRepo(),
+  logger,
+});
+
+export const makeListDeviceDeps = (logger: Logger): getDeviceByIdDeps => ({
+  deviceRepo: getDeviceRepo(),
+  logger,
+});

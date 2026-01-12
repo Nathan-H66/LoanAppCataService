@@ -1,10 +1,12 @@
 import { Device } from '../domain/device';
 import { DeviceRepo } from '../domain/device-repo';
 import type { AuthContext } from './auth-context';
+import { Logger } from './logger';
 
 export type ListDevicesDeps = {
   deviceRepo: DeviceRepo;
   authContext: AuthContext;
+  logger?: Logger;
 };
 
 // DTO for listing devices
@@ -32,10 +34,10 @@ export async function listDevices(
 ): Promise<ListDevicesResult> {
   const { deviceRepo, authContext } = deps;
 
+  deps.logger?.info?.('Listing devices');
   try {
     const devices = await deviceRepo.list();
-
-    // Map devices to DTO format
+    deps.logger?.debug?.(`Fetched ${devices.length} devices`);
     const processedDevices: DeviceListItem[] = devices.map((device) => ({
       id: device.id,
       name: device.name,
@@ -43,9 +45,10 @@ export async function listDevices(
       category: device.category,
       quantity: device.quantity,
     }));
-
+    deps.logger?.debug?.(`Mapped ${processedDevices.length} devices to DTO`);
     return { success: true, data: processedDevices };
   } catch (error) {
+    deps.logger?.error?.(`Error listing devices: ${(error as Error).message}`);
     return { success: false, error: (error as Error).message };
   }
 }

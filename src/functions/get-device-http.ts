@@ -1,9 +1,15 @@
-import { app, HttpRequest, HttpResponseInit } from '@azure/functions';
+import {
+  app,
+  HttpRequest,
+  HttpResponseInit,
+  InvocationContext,
+} from '@azure/functions';
 import { getDeviceById } from '../app/get-device';
-import { getDeviceRepo } from '../config/appServices';
+import { getDeviceRepo, makeGetDeviceDeps } from '../config/appServices';
 
 export const getDeviceHandler = async (
-  request: HttpRequest
+  request: HttpRequest,
+  context: InvocationContext
 ): Promise<HttpResponseInit> => {
   const id = request.params['id'];
   if (!id) {
@@ -15,8 +21,8 @@ export const getDeviceHandler = async (
       },
     };
   }
-
-  const result = await getDeviceById({ deviceRepo: getDeviceRepo() }, id);
+  const deps = makeGetDeviceDeps(context);
+  const result = await getDeviceById(deps, id);
   if (!result.success) {
     return {
       status: 404,

@@ -1,9 +1,15 @@
-import { app, HttpRequest, HttpResponseInit } from '@azure/functions';
+import {
+  app,
+  HttpRequest,
+  HttpResponseInit,
+  InvocationContext,
+} from '@azure/functions';
 import { listDevices } from '../app/list-devices';
 import { makeListDevicesDeps } from '../config/appServices';
 
 const listDevicesHandler = async (
-  request: HttpRequest
+  request: HttpRequest,
+  context: InvocationContext
 ): Promise<HttpResponseInit> => {
   const deps = await makeListDevicesDeps(request);
   const result = await listDevices(deps);
