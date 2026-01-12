@@ -11,6 +11,7 @@ export const getDeviceHandler = async (
   request: HttpRequest,
   context: InvocationContext
 ): Promise<HttpResponseInit> => {
+  context.log('TEST LOG: Handler invoked');
   const id = request.params['id'];
   if (!id) {
     return {
@@ -21,7 +22,16 @@ export const getDeviceHandler = async (
       },
     };
   }
-  const deps = makeGetDeviceDeps(context);
+  // Create a logger using context.log
+  const logger = {
+    info: (msg: string) => context.log(msg),
+    warn: (msg: string) => context.log(`WARN: ${msg}`),
+    error: (msg: string) => context.log(`ERROR: ${msg}`),
+    debug: (msg: string) => context.log(`DEBUG: ${msg}`),
+    trace: (msg: string) => context.log(`TRACE: ${msg}`),
+  };
+  // Pass logger to dependency factory
+  const deps = makeGetDeviceDeps(logger);
   const result = await getDeviceById(deps, id);
   if (!result.success) {
     return {
